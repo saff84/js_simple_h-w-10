@@ -1,23 +1,36 @@
-const tool = document.querySelectorAll(".has-tooltip"),
-tooltip = document.querySelectorAll(".tooltip");
+document.addEventListener("click", e => {  //слушаем клики по документу
 
+    if (e.target.classList.contains('has-tooltip') || e.target.closest('.has-tooltip')) { //проверям клик нужный элемент или рядом с ним
+        tooltipShow(e.target)                   //показываем посказку
+        e.preventDefault()
+    }
+    else {
+        tooltipHide()                           //иначе прячем если она есть
+    }
+})
 
-tool.forEach((el, index) => {
-    el.addEventListener("click", (event) => {
-        let activ = document.querySelector(".tooltip_active") // ищем активную подсказку
-        if (activ) activ.classList.remove("tooltip_active") // усли true то убираем ее
+function tooltipShow(link) {
+    if (!document.querySelector('.tooltip')) { //если еще нет div с подсказкой то создаем
+        tooltipCreate(link);
+    }
+    let tooltip = document.querySelector('.tooltip'),  // получаем созданный div подсказки
+        coord = link.getBoundingClientRect();               // получаем координаты блока для подсказки
+    tooltip.innerHTML = link.getAttribute('title');         //обновляем данные для подсказки
+    tooltip.classList.toggle('tooltip_active');
+    tooltip.style.left = coord.left + "px";
+    tooltip.style.top = coord.bottom + "px";
 
-        let coord = el.getBoundingClientRect() // получаем координаты элемента по клику
-       
-        const div = document.createElement("div") // создаем элемент на основе кликнутого
-        div.classList.add("tooltip", "tooltip_active")
-        div.textContent = el.title                // задаем текст подсказки  
-        div.style.left = coord.left + "px";  // задаем координаты
-        div.style.top = coord.bottom + "px";
+}
 
-        el.appendChild(div)  //добавляем элемент
-        event.preventDefault() //запрещаем обновление страницы
+function tooltipHide() {
+    let tooltip = document.querySelector('.tooltip');
+    if (tooltip) {
+        tooltip.classList.remove('tooltip_active');
+    }
+}
 
-    })
-
-});
+function tooltipCreate() {
+    const tooltip = document.createElement('div');
+    tooltip.classList.add('tooltip');
+    document.body.append(tooltip);
+}

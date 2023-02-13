@@ -3,12 +3,11 @@ const form = document.querySelector("form"),
     taskList = document.querySelector(".tasks__list");
 
 form.addEventListener("submit", (event) => {
-    if (text.value.trim()){
+    if (text.value.trim()) {
         addTask()
     }
-    
+
     text.value = ""
-    // addListener()
     event.preventDefault()
 })
 
@@ -25,24 +24,9 @@ function addTask() {
 
 document.addEventListener("click", e => {
 
-    if (e.target.classList.contains("task__remove")){
+    if (e.target.classList.contains("task__remove")) {
         e.target.parentNode.remove()
         e.preventDefault()
     }
 })
 
-
-
-
-// function addListener() {
-//    const removeEl = document.querySelectorAll(".task__remove"),
-//    tasks = document.querySelectorAll(".task");
-    
-//     removeEl.forEach((el,index) => {
-//         el.addEventListener("click", (event) => {
-//         tasks[index].remove()
-//         event.preventDefault()
-//     })
-//     })
-    
-// }
